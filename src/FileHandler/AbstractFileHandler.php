@@ -1,6 +1,6 @@
 <?php
 
-namespace Noodlehaus\FileParser;
+namespace Noodlehaus\FileHandler;
 
 /**
  * Abstract file parser
@@ -11,7 +11,7 @@ namespace Noodlehaus\FileParser;
  * @link       https://github.com/noodlehaus/config
  * @license    MIT
  */
-abstract class AbstractFileParser implements FileParserInterface
+abstract class AbstractFileHandler implements FileHandlerInterface
 {
 
     /**

@@ -22,12 +22,12 @@ class Config extends AbstractConfig
      *
      * @var array
      */
-    protected $supportedFileParsers = array(
-        'Noodlehaus\FileParser\Php',
-        'Noodlehaus\FileParser\Ini',
-        'Noodlehaus\FileParser\Json',
-        'Noodlehaus\FileParser\Xml',
-        'Noodlehaus\FileParser\Yaml'
+    protected $supportedFileHandlers = array(
+        'Noodlehaus\FileHandler\Php',
+        'Noodlehaus\FileHandler\Ini',
+        'Noodlehaus\FileHandler\Json',
+        'Noodlehaus\FileHandler\Xml',
+        'Noodlehaus\FileHandler\Yaml'
     );
 
     /**
@@ -55,14 +55,8 @@ class Config extends AbstractConfig
         $this->data = array();
 
         foreach ($paths as $path) {
-
             // Get file information
-            $info      = pathinfo($path);
-            $parts = explode('.', $info['basename']);
-            $extension = array_pop($parts);
-            if ($extension === 'dist') {
-                $extension = array_pop($parts);
-            }
+            $extension = $this->getExtension($path);
             $parser    = $this->getParser($extension);
 
             // Try and load file
@@ -73,21 +67,55 @@ class Config extends AbstractConfig
     }
 
     /**
-     * Gets a parser for a given file extension
+     * Gets the extension from a path
+     *
+     * @param  string $path
+     * 
+     * @return string
+     */
+    private function getExtension($path)
+    {
+        $info  = pathinfo($path);
+        $parts = explode('.', $info['basename']);
+        $extension = array_pop($parts);
+        if ($extension === 'dist') {
+            $extension = array_pop($parts);
+        }
+
+        return $extension;
+    }
+
+    /**
+     * Saves the config to a file
+     *
+     * @param  string|array $path
+     */
+    public function save($path)
+    {
+        $extension = $this->getExtension($path);
+        $parser    = $this->getParser($extension);
+    }
+
+    /**
+     * Gets a handler for a given file extension
      *
      * @param  string $extension
+     * @param  boolean $requireWrite
      *
-     * @return Noodlehaus\FileParser\FileParserInterface
+     * @return Noodlehaus\FileHandler\FileHandlerInterface
      *
      * @throws UnsupportedFormatException If `$path` is an unsupported file format
      */
-    private function getParser($extension)
+    private function getHandler($extension, $requireWrite = false)
     {
-        foreach ($this->supportedFileParsers as $fileParser) {
-            if (in_array($extension, $fileParser::getSupportedExtensions($extension))) {
-                return new $fileParser();
-            }
+        foreach ($this->supportedFileHandlers as $fileHandler) {
+            if (in_array($extension, $fileHandler::getSupportedExtensions($extension))) {
+                if($requireWrite && !$fileHandler->canWrite()) {
+                    continue;
+                }
 
+                return new $fileHandler();
+            }
         }
 
         // If none exist, then throw an exception
