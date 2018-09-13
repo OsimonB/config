@@ -57,7 +57,7 @@ class Config extends AbstractConfig
         foreach ($paths as $path) {
             // Get file information
             $extension = $this->getExtension($path);
-            $parser    = $this->getParser($extension);
+            $parser    = $this->getHandler($extension);
 
             // Try and load file
             $this->data = array_replace_recursive($this->data, (array) $parser->parse($path));
@@ -93,7 +93,7 @@ class Config extends AbstractConfig
     public function save($path)
     {
         $extension = $this->getExtension($path);
-        $parser    = $this->getParser($extension);
+        $parser    = $this->getHandler($extension);
 
         $parser->write($this->data, $path);
     }
