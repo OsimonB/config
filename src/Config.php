@@ -94,6 +94,8 @@ class Config extends AbstractConfig
     {
         $extension = $this->getExtension($path);
         $parser    = $this->getParser($extension);
+
+        $parser->write($this->data, $path);
     }
 
     /**
