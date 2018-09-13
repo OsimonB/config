@@ -1,8 +1,9 @@
 <?php
 
-namespace Noodlehaus\FileParser;
+namespace Noodlehaus\FileHandler;
 
 use Noodlehaus\Exception\ParseException;
+use Noodlehaus\Exception\WriteException;
 
 /**
  * JSON file parser
@@ -40,6 +41,40 @@ class Json implements FileParserInterface
         }
 
         return $data;
+    }
+    /**
+     * {@inheritDoc}
+     * Writes the config array to a JSON file
+     *
+     * @throws WriteException If there is an error writing the JSON file
+     */
+    public function write($config, $path)
+    {
+        $output = json_encode($config, 1);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $error_message  = 'Syntax error';
+            if (function_exists('json_last_error_msg')) {
+                $error_message = json_last_error_msg();
+            }
+
+            $error = array(
+                'message' => $error_message,
+                'type'    => json_last_error(),
+                'file'    => $path,
+            );
+            throw new WriteException($error);
+        }
+
+        file_put_contents($path, $output);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function canWrite()
+    {
+        return true;
     }
 
     /**

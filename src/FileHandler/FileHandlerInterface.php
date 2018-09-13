@@ -1,6 +1,6 @@
 <?php
 
-namespace Noodlehaus\FileParser;
+namespace Noodlehaus\FileHandler;
 
 /**
  * Config file parser interface
@@ -11,7 +11,7 @@ namespace Noodlehaus\FileParser;
  * @link       https://github.com/noodlehaus/config
  * @license    MIT
  */
-interface FileParserInterface
+interface FileHandlerInterface
 {
     /**
      * Parses a file from `$path` and gets its contents as an array
@@ -21,6 +21,21 @@ interface FileParserInterface
      * @return array
      */
     public function parse($path);
+
+    /**
+     * Writes the config array to `$path`
+     *
+     * @param  array $config
+     * @param  string $path
+     */
+    public function write($config, $path);
+
+    /**
+     * Returns whether or not the file handler supports writing
+     * 
+     * @return boolean
+     */
+    public function canWrite();
 
     /**
      * Returns an array of allowed file extensions for this parser
