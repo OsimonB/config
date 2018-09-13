@@ -51,7 +51,7 @@ class Json implements FileHandlerInterface
      */
     public function write($config, $path)
     {
-        $output = json_encode($config, 1);
+        $output = json_encode($config, JSON_PRETTY_PRINT);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             $error_message  = 'Syntax error';
