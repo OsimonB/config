@@ -53,6 +53,17 @@ class Php implements FileHandlerInterface
 
     /**
      * {@inheritDoc}
+     * Writes the config array to a JSON file
+     *
+     * @throws WriteException If there is an error writing the JSON file
+     */
+    public function write($config, $path)
+    {
+        throw new UnsupportedFormatException('File handler does not support writing');
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public function canWrite()
     {

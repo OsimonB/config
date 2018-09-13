@@ -37,16 +37,20 @@ abstract class AbstractFileHandler implements FileHandlerInterface
 
     /**
      * {@inheritDoc}
-     * Writes the config array to a file
+     * Writes the config array to a JSON file
      *
-     * @throws UnsupportedFormatException If the format isn't supported
+     * @throws WriteException If there is an error writing the JSON file
      */
     public function write($config, $path)
     {
-        if($this->canWrite()) {
-            throw new UnsupportedFormatException('File handler thinks it can write, but doesn\'t know how');
-        }
-
         throw new UnsupportedFormatException('File handler does not support writing');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function canWrite()
+    {
+        return false;
     }
 }
