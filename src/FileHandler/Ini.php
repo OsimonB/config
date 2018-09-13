@@ -1,6 +1,6 @@
 <?php
 
-namespace Noodlehaus\FileParser;
+namespace Noodlehaus\FileHandler;
 
 use Noodlehaus\Exception\ParseException;
 
@@ -13,7 +13,7 @@ use Noodlehaus\Exception\ParseException;
  * @link       https://github.com/noodlehaus/config
  * @license    MIT
  */
-class Ini implements FileParserInterface
+class Ini implements FileHandlerInterface
 {
 
 
@@ -71,6 +71,14 @@ class Ini implements FileParserInterface
             }
         }
         return $data;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function canWrite()
+    {
+        return false;
     }
 
     /**

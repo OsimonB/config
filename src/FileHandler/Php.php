@@ -1,6 +1,6 @@
 <?php
 
-namespace Noodlehaus\FileParser;
+namespace Noodlehaus\FileHandler;
 
 use Exception;
 use Noodlehaus\Exception\ParseException;
@@ -15,7 +15,7 @@ use Noodlehaus\Exception\UnsupportedFormatException;
  * @link       https://github.com/noodlehaus/config
  * @license    MIT
  */
-class Php implements FileParserInterface
+class Php implements FileHandlerInterface
 {
     /**
      * {@inheritDoc}
@@ -49,6 +49,14 @@ class Php implements FileParserInterface
         }
 
         return $temp;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function canWrite()
+    {
+        return false;
     }
 
     /**

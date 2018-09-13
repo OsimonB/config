@@ -14,7 +14,7 @@ use Noodlehaus\Exception\WriteException;
  * @link       https://github.com/noodlehaus/config
  * @license    MIT
  */
-class Json implements FileParserInterface
+class Json implements FileHandlerInterface
 {
     /**
      * {@inheritDoc}

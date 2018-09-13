@@ -1,6 +1,6 @@
 <?php
 
-namespace Noodlehaus\FileParser;
+namespace Noodlehaus\FileHandler;
 
 use Noodlehaus\Exception\ParseException;
 
@@ -13,7 +13,7 @@ use Noodlehaus\Exception\ParseException;
  * @link       https://github.com/noodlehaus/config
  * @license    MIT
  */
-class Xml implements FileParserInterface
+class Xml implements FileHandlerInterface
 {
     /**
      * {@inheritDoc}
@@ -43,6 +43,14 @@ class Xml implements FileParserInterface
         $data = json_decode(json_encode($data), true);
 
         return $data;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function canWrite()
+    {
+        return false;
     }
 
     /**
