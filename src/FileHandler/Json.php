@@ -42,6 +42,7 @@ class Json implements FileHandlerInterface
 
         return $data;
     }
+
     /**
      * {@inheritDoc}
      * Writes the config array to a JSON file
